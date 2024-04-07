@@ -11,6 +11,7 @@ import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,7 +35,7 @@ public class UserService {
         LocalUser user = getUser(registrationBody);
         if(user != null) {
             user.setUsername(registrationBody.getUsername());
-            user.setPassword(encryptionService.encryptPassword(registrationBody.getPassword()));
+            user.setName(registrationBody.getName());
         }
         return localUserDAO.save(user);
     }
@@ -70,5 +71,8 @@ public class UserService {
             user = null;
         }
         return user;
+    }
+    public Iterable<LocalUser> getAllUsers() {
+        return localUserDAO.findAll();
     }
 }

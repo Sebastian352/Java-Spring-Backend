@@ -12,6 +12,16 @@ public class RegistrationBody {
     @Size(min=6,max = 64)
     private  String password;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private String name;
+
     public String getUsername() {
         return username;
     }

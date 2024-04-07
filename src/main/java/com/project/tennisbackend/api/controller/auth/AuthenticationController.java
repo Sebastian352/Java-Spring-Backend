@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 @RequestMapping("/auth")
 public class AuthenticationController {
 
@@ -21,7 +22,7 @@ public class AuthenticationController {
     public AuthenticationController(UserService userService){
         this.userService = userService;
     }
-
+    @CrossOrigin(origins = "*",allowedHeaders = "*")
     @PostMapping("/register")
     public ResponseEntity registerUser(@RequestBody RegistrationBody registrationBody){
         try {
@@ -31,6 +32,7 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
+    @CrossOrigin(origins = "*",allowedHeaders = "*")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginBody loginBody){
         String jwt = userService.loginUser(loginBody);
@@ -49,8 +51,19 @@ public class AuthenticationController {
 
     }
 
+    @PostMapping("/update")
+    public void updateUser(@RequestBody RegistrationBody registrationBody){
+        this.userService.putUser(registrationBody);
+    }
+
     @GetMapping("/get")
     public LocalUser getUser(@RequestBody RegistrationBody registrationBody){
         return this.userService.getUser(registrationBody);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<Iterable<LocalUser>> getAllUsers() {
+        Iterable<LocalUser> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 }

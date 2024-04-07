@@ -16,6 +16,17 @@ public class LocalUser {
     @Column(name = "password", nullable = false, length = 1000)
     private String password;
 
+    @Column(name="name",nullable = true,length = 300)
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPassword() {
         return password;
     }
