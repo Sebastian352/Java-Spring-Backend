@@ -5,11 +5,17 @@ import com.project.tennisbackend.api.model.LoginResponse;
 import com.project.tennisbackend.api.model.RegistrationBody;
 import com.project.tennisbackend.exception.UserAlreadyExistsException;
 import com.project.tennisbackend.model.LocalUser;
+import com.project.tennisbackend.service.EmailSenderService;
 import com.project.tennisbackend.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cglib.core.Local;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +24,9 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private UserService userService;
+
+    @Autowired
+    private EmailSenderService senderService;
 
     public AuthenticationController(UserService userService){
         this.userService = userService;
@@ -65,5 +74,15 @@ public class AuthenticationController {
     public ResponseEntity<Iterable<LocalUser>> getAllUsers() {
         Iterable<LocalUser> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+    @GetMapping("/me")
+    public LocalUser getLoggedInUserProfile(@AuthenticationPrincipal LocalUser user){
+        return user;
+    }
+
+    @PostMapping("/notify")
+    @EventListener(ApplicationReadyEvent.class)
+    public void notifyAdmin(){
+        senderService.sendEmail("sebyolaru464@gmail.com","Accept Tournament","Please accept my tournament");
     }
 }

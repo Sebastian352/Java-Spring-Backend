@@ -12,6 +12,19 @@ public class RegistrationBody {
     @Size(min=6,max = 64)
     private  String password;
 
+
+    private boolean tournament;
+
+    private String name;
+
+    public Boolean getTournament() {
+        return tournament;
+    }
+
+    public void setTournament(Boolean tournament) {
+        this.tournament = tournament;
+    }
+
     public String getName() {
         return name;
     }
@@ -19,9 +32,6 @@ public class RegistrationBody {
     public void setName(String name) {
         this.name = name;
     }
-
-    private String name;
-
     public String getUsername() {
         return username;
     }

@@ -36,6 +36,7 @@ public class UserService {
         if(user != null) {
             user.setUsername(registrationBody.getUsername());
             user.setName(registrationBody.getName());
+            user.setTournament(registrationBody.getTournament());
         }
         return localUserDAO.save(user);
     }
